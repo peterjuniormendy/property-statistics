@@ -257,9 +257,65 @@ const filterByBedrooms = (numberOfBedrooms) => {
   );
   return getPropertiesByBedrooms;
 };
-const countByPropertyType = () => {};
-searchProperties();
-medianPropertyPrice();
-mostCommonLocation();
-averagePricePerBedroom();
-highestPricedByLocation();
+const countByPropertyType = () => {
+  const propertyTypeCount = properties.reduce((count, property) => {
+    count[property.type] = (count[property.type] || 0) + 1;
+    return count;
+  }, {});
+  return propertyTypeCount;
+};
+const searchProperties = (searchTerm) => {
+  const searchResults = properties.filter((property) => {
+    return (
+      property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      property.location.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+  return searchResults;
+};
+medianPropertyPrice = () => {
+  const sortedProperties = properties.sort((a, b) => a.price - b.price);
+  const middleIndex = Math.floor(sortedProperties.length / 2);
+  if (sortedProperties.length % 2 === 0) {
+    return (
+      (sortedProperties[middleIndex - 1].price +
+        sortedProperties[middleIndex].price) /
+      2
+    );
+  }
+};
+mostCommonLocation = () => {
+  const locationCount = properties.reduce((count, property) => {
+    count[property.location] = (count[property.location] || 0) + 1;
+    return count;
+  }, {});
+  return Object.keys(locationCount).reduce((mostCommon, location) => {
+    return locationCount[location] > locationCount[mostCommon]
+      ? location
+      : mostCommon;
+  });
+};
+averagePricePerBedroom = () => {
+  const totalValue = properties.reduce(
+    (total, property) => total + property.price,
+    0,
+  );
+  const totalBedrooms = properties.reduce(
+    (total, property) => total + property.bedrooms,
+    0,
+  );
+  return totalValue / totalBedrooms;
+};
+
+highestPricedByLocation = () => {
+  const highestPrices = {};
+  properties.forEach((property) => {
+    if (
+      !highestPrices[property.location] ||
+      property.price > highestPrices[property.location].price
+    ) {
+      highestPrices[property.location] = property;
+    }
+  });
+  return highestPrices;
+};
