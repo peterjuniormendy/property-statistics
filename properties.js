@@ -293,16 +293,39 @@ const countByPropertyType = () => {
 };
 console.log("countByPropertyType:", countByPropertyType());
 
-const searchProperties = (searchTerm) => {
-  const searchResults = properties.filter((property) => {
-    return (
-      property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      property.location.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
-  return searchResults;
+const isObject = (obj) => {
+  return obj !== null && typeof obj === "object" && !Array.isArray(obj);
 };
-// console.log("search:", searchProperties({ location: "Leeds" }));
+
+const searchProperties = (criteria) => {
+  if (!isObject(criteria))
+    return "Invalid search term. Please provide a string.";
+  const validProperties = getProperties();
+  const results = [];
+  validProperties.forEach((property) => {
+    let isMatch = true;
+    if (
+      criteria.location &&
+      property.location.toLowerCase() !== criteria.location.toLowerCase()
+    ) {
+      isMatch = false;
+    }
+    if (
+      (criteria.maxPrice && typeof property.price !== "number") ||
+      property.price > criteria.maxPrice
+    ) {
+      isMatch = false;
+    }
+    if (criteria.minBedrooms && property.bedrooms < criteria.minBedrooms) {
+      isMatch = false;
+    }
+    if (isMatch) {
+      results.push(property);
+    }
+  });
+  return results;
+};
+console.log("search:", searchProperties({}));
 
 medianPropertyPrice = () => {
   const sortedProperties = properties.sort((a, b) => a.price - b.price);
