@@ -173,13 +173,13 @@ const properties = [
     name: "waterfront",
     location: "liverpool",
     price: 1800000,
-    bedrooms: 2,
+    bedrooms: -2,
     bathrooms: 1,
     type: "Apartment",
     area: 10000,
   },
   {
-    id: 19,
+    id: "",
     name: "royal gardens",
     location: "london",
     price: 1900000,
@@ -189,7 +189,7 @@ const properties = [
     area: 10500,
   },
   {
-    id: 20,
+    id: "as20",
     name: "grand estate",
     location: "huddersfield",
     price: 2000000,
@@ -213,22 +213,36 @@ const isValidProperty = (property) => {
 };
 
 const getProperties = () => {
-  return properties;
+  const validProperties = properties.filter((property) =>
+    isValidProperty(property),
+  );
+  return validProperties;
 };
 console.log("properties:", getProperties());
 
 const getPropertyById = (id) => {
-  return properties.find((property) => property.id === id);
+  const validProperties = getProperties();
+  return validProperties.find((property) => property.id === id);
 };
 const getTotalProperties = () => {
-  return properties.length;
+  const validProperties = getProperties();
+  return validProperties.length;
 };
 const getAveragePrice = () => {
-  const totalPrice = properties.reduce(
+  const validProperties = getProperties();
+  const propertiesWithValidPrice = validProperties.filter(
+    (property) =>
+      property.price &&
+      typeof property.price === "number" &&
+      property.price >= 0,
+  );
+  if (propertiesWithValidPrice.length === 0) return 0;
+
+  const totalPrice = propertiesWithValidPrice.reduce(
     (total, property) => total + property.price,
     0,
   );
-  return totalPrice / properties.length;
+  return totalPrice / validProperties.length;
 };
 
 const getCheapestProperty = () => {
@@ -278,6 +292,7 @@ const countByPropertyType = () => {
   return propertyTypeCount;
 };
 console.log("countByPropertyType:", countByPropertyType());
+
 const searchProperties = (searchTerm) => {
   const searchResults = properties.filter((property) => {
     return (
@@ -287,6 +302,8 @@ const searchProperties = (searchTerm) => {
   });
   return searchResults;
 };
+// console.log("search:", searchProperties({ location: "Leeds" }));
+
 medianPropertyPrice = () => {
   const sortedProperties = properties.sort((a, b) => a.price - b.price);
   const middleIndex = Math.floor(sortedProperties.length / 2);
