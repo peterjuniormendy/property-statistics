@@ -200,6 +200,18 @@ const properties = [
   },
 ];
 
+const isValidProperty = (property) => {
+  if (!property) {
+    return false;
+  } else if (!property.id || typeof property.id !== "number") {
+    return false;
+  } else if (property.bedrooms < 0 || typeof property.bedrooms !== "number") {
+    return false;
+  } else {
+    return true;
+  }
+};
+
 const getProperties = () => {
   return properties;
 };
