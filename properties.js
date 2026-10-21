@@ -1,4 +1,4 @@
-let properties = [
+const properties = [
   {
     id: 1,
     name: "luxury bungalow",
@@ -13,7 +13,7 @@ let properties = [
     id: 2,
     name: "Rise Apartments",
     location: "leeds",
-    price: gfd,
+    price: "gfd",
     bedrooms: 4,
     bathrooms: 3,
     type: "House",
@@ -203,6 +203,7 @@ let properties = [
 const getProperties = () => {
   return properties;
 };
+console.log("properties:", getProperties());
 
 const getPropertyById = (id) => {
   return properties.find((property) => property.id === id);
