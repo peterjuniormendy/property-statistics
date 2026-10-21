@@ -242,7 +242,7 @@ const getAveragePrice = () => {
     (total, property) => total + property.price,
     0,
   );
-  return totalPrice / validProperties.length;
+  return totalPrice / propertiesWithValidPrice.length;
 };
 
 const getCheapestProperty = () => {
@@ -285,11 +285,18 @@ const filterByBedrooms = (numberOfBedrooms) => {
   return getPropertiesByBedrooms;
 };
 const countByPropertyType = () => {
-  const propertyTypeCount = properties.reduce((count, property) => {
-    count[property.type || "no type"] = (count[property.type] || 0) + 1;
-    return count;
-  }, {});
-  return propertyTypeCount;
+  const validProperties = getProperties();
+  const counts = {};
+  validProperties.forEach((property) => {
+    const type = (property.type || "no type").toLowerCase();
+    if (Object.keys(counts).includes(type)) {
+      counts[type] += 1;
+    } else {
+      counts[type] = 1;
+    }
+  });
+
+  return counts;
 };
 console.log("countByPropertyType:", countByPropertyType());
 
@@ -299,24 +306,27 @@ const isObject = (obj) => {
 
 const searchProperties = (criteria) => {
   if (!isObject(criteria))
-    return "Invalid search term. Please provide a string.";
+    return "Invalid search term. Please provide an object.";
   const validProperties = getProperties();
   const results = [];
   validProperties.forEach((property) => {
     let isMatch = true;
     if (
-      criteria.location &&
+      criteria.location !== undefined &&
       property.location.toLowerCase() !== criteria.location.toLowerCase()
     ) {
       isMatch = false;
     }
     if (
-      (criteria.maxPrice && typeof property.price !== "number") ||
-      property.price > criteria.maxPrice
+      criteria.maxPrice !== undefined &&
+      (typeof property.price !== "number" || property.price > criteria.maxPrice)
     ) {
       isMatch = false;
     }
-    if (criteria.minBedrooms && property.bedrooms < criteria.minBedrooms) {
+    if (
+      criteria.minBedrooms !== undefined &&
+      property.bedrooms < criteria.minBedrooms
+    ) {
       isMatch = false;
     }
     if (isMatch) {
@@ -325,7 +335,7 @@ const searchProperties = (criteria) => {
   });
   return results;
 };
-console.log("search:", searchProperties({}));
+console.log("search:", searchProperties({ maxPrice: 0 }));
 
 medianPropertyPrice = () => {
   const sortedProperties = properties.sort((a, b) => a.price - b.price);
