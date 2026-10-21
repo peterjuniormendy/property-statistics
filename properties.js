@@ -272,11 +272,12 @@ const filterByBedrooms = (numberOfBedrooms) => {
 };
 const countByPropertyType = () => {
   const propertyTypeCount = properties.reduce((count, property) => {
-    count[property.type] = (count[property.type] || 0) + 1;
+    count[property.type || "no type"] = (count[property.type] || 0) + 1;
     return count;
   }, {});
   return propertyTypeCount;
 };
+console.log("countByPropertyType:", countByPropertyType());
 const searchProperties = (searchTerm) => {
   const searchResults = properties.filter((property) => {
     return (
