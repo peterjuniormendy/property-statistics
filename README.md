@@ -13,3 +13,4 @@ Agreed data rules
 - A provided bedroom count must be a valid number.
 - Compare and count property types in lowercase.
 - Missing bathroom count is allowed; treat it as unknown and exclude it from bathroom calculations.
+- Price of zero is valid and included in the price calculations.

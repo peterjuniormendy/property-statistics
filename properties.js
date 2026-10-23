@@ -232,7 +232,7 @@ const getAveragePrice = () => {
   const validProperties = getProperties();
   const propertiesWithValidPrice = validProperties.filter(
     (property) =>
-      property.price &&
+      property.price !== undefined &&
       typeof property.price === "number" &&
       property.price >= 0,
   );
@@ -289,7 +289,7 @@ const countByPropertyType = () => {
   const counts = {};
   validProperties.forEach((property) => {
     const type = (property.type || "no type").toLowerCase();
-    if (Object.keys(counts).includes(type)) {
+    if (type in counts) {
       counts[type] += 1;
     } else {
       counts[type] = 1;
