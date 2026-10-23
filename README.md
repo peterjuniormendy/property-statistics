@@ -17,17 +17,20 @@ This is a vanilla JavaScript project mainly to simplify property listings and ho
 - If a property bedrooms is missing, it's displayed as 'Missing bedrooms'.
 - If a property bathrooms is missing, it's displayed as 'Missing bathrooms'.
 - All property types are displayed by capitalizing the first letter.
+- If a property has no type, it is displayed as 'No type'.
 
 ## Bad records table
 
-| ID  | Problem | How the program handles it |
-| --- | ------- | -------------------------- |
-
-| 2 | Price is "gfd" (not a number) | Kept, but excluded from price calculations; shows "Missing price" |
-| '' | No id | Rejected: No property is|
-| 18 | Bathroom is -2 (negative number) | Rejected: negative bathroom count |
-| 'as20 | Not a valid ID | Rejected: Invalid property ID |
-| 15 | no property type | Kept, but shows "Missing price" |
+| ID       | Problem                              | How the program handles it                                                         |
+| -------- | ------------------------------------ | ---------------------------------------------------------------------------------- |
+| 2        | Price is "gfd" (not a number)        | Kept, but excluded from price calculations; shows "Missing price"                  |
+| ''       | No id                                | Rejected: No property ID                                                           |
+| 18       | Bedroom is -2 (negative number)      | Rejected: negative bedroom count                                                   |
+| 'as20'   | Not a valid ID                       | Rejected: Invalid property ID                                                      |
+| 15       | no property type                     | Kept, but shows "No type"                                                          |
+| 8 and 11 | type written in lowercase ("studio") | Kept, but displayed with the first character capitalised "Studio"                  |
+| 5        | 0 bathroom and bedroom               | Valid, displayed as 0 bathrooms or 0 bedrooms. Also 0 bedrooms could mean a studio |
+| 11       | "" (empty name)                      | Kept, but displayed as 'No name'                                                   |
 
 ## Extra feature
 
