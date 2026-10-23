@@ -402,12 +402,40 @@ const highestPricedByLocation = () => {
   const highestPrices = {};
   const propertiesWithValidPrice = getPropertiesWithValidPrice();
   propertiesWithValidPrice.forEach((property) => {
+    let location = property.location.toLowerCase();
     if (
-      !highestPrices[property.location.toLowerCase()] ||
-      property.price > highestPrices[property.location.toLowerCase()].price
+      !highestPrices[location] ||
+      property.price > highestPrices[location].price
     ) {
-      highestPrices[property.location.toLowerCase()] = property;
+      highestPrices[location] = property;
     }
   });
   return highestPrices;
 };
+console.table(properties);
+console.log("Get all properties: ", getProperties());
+console.log("Get property by ID: ", getPropertyById(5));
+console.log("Get total properties: ", getTotalProperties());
+console.log(
+  "Get average price: ",
+  getAveragePrice().toLocaleString("en-GB", {
+    style: "currency",
+    currency: "GBP",
+  }),
+);
+console.log("Get cheapest property: ", getCheapestProperty());
+console.log("Get most expensive property: ", getMostExpensiveProperty());
+console.log("Get average bedrooms: ", getAverageBedrooms());
+console.log("Get properties by location: ", filterByLocation("leeds"));
+console.log("Get properties by price: ", filterByPrice(100000));
+console.log("Get properties by bedroom: ", filterByBedrooms(3));
+console.log("Count properties by type: ", countByPropertyType());
+console.log("Search property: ", searchProperties({ maxPrice: 300000 }));
+console.log(
+  "Get highest priced property by location: ",
+  highestPricedByLocation(),
+);
+console.log(
+  "Number of invaild property records: ",
+  properties.length - getProperties().length,
+);
