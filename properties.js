@@ -365,7 +365,7 @@ const medianPropertyPrice = () => {
       2
     );
   } else {
-    return sortedProperties[middleIndex - 1].price;
+    return sortedProperties[middleIndex].price;
   }
 };
 const mostCommonLocation = () => {
