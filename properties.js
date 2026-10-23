@@ -212,6 +212,41 @@ const isValidProperty = (property) => {
   }
 };
 
+const isObject = (obj) => {
+  return obj !== null && typeof obj === "object" && !Array.isArray(obj);
+};
+
+const isEmpty = (obj) => {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+const formatProperty = (property) => {
+  if (!isObject(property)) return "Invalid property from.";
+  if (isEmpty) return "Empty property";
+  let id = `#${property.id}`;
+  let name = property.name ?? "No name";
+  let propertyLocation =
+    property[location][0].toUpperCase() + property[location].slice(1) ??
+    "Missing location";
+  let price = property.price.toLocaleString("en-GB", {
+    style: "currency",
+    currency: "GBP",
+  });
+  let beds = `${property.bedrooms} beds`;
+  let baths = `${property.bathrooms} baths`;
+
+  let propertyType =
+    property[type][0].toUpperCase() + property[type].slice(1) ?? "No type";
+
+  return `${id} ${name} - ${propertyLocation} - ${price} - ${beds} - ${baths} - ${propertyType}`;
+};
+
 const getProperties = () => {
   const validProperties = properties.filter((property) =>
     isValidProperty(property),
@@ -248,7 +283,7 @@ const getAveragePrice = () => {
     (total, property) => total + property.price,
     0,
   );
-  return totalPrice / propertiesWithValidPrice.length;
+  return (totalPrice / propertiesWithValidPrice.length).toFixed(2);
 };
 
 const getCheapestProperty = () => {
@@ -278,7 +313,7 @@ const getAverageBedrooms = () => {
     (total, property) => total + property.bedrooms,
     0,
   );
-  return totalBedrooms / validProperties.length;
+  return (totalBedrooms / validProperties.length).toFixed(2);
 };
 
 const filterByLocation = (location) => {
@@ -318,10 +353,6 @@ const countByPropertyType = () => {
   });
 
   return counts;
-};
-
-const isObject = (obj) => {
-  return obj !== null && typeof obj === "object" && !Array.isArray(obj);
 };
 
 const searchProperties = (criteria) => {
@@ -412,9 +443,7 @@ const highestPricedByLocation = () => {
   });
   return highestPrices;
 };
-console.table(properties);
-console.log("Get all properties: ", getProperties());
-console.log("Get property by ID: ", getPropertyById(5));
+
 console.log("Get total properties: ", getTotalProperties());
 console.log(
   "Get average price: ",
@@ -423,19 +452,14 @@ console.log(
     currency: "GBP",
   }),
 );
-console.log("Get cheapest property: ", getCheapestProperty());
-console.log("Get most expensive property: ", getMostExpensiveProperty());
-console.log("Get average bedrooms: ", getAverageBedrooms());
-console.log("Get properties by location: ", filterByLocation("leeds"));
-console.log("Get properties by price: ", filterByPrice(100000));
-console.log("Get properties by bedroom: ", filterByBedrooms(3));
+console.log("Get cheapest property: ", formatProperty(getCheapestProperty()));
+console.log(
+  "Get most expensive property: ",
+  formatProperty(getMostExpensiveProperty()),
+);
 console.log("Count properties by type: ", countByPropertyType());
 console.log("Search property: ", searchProperties({ maxPrice: 300000 }));
 console.log(
-  "Get highest priced property by location: ",
-  highestPricedByLocation(),
-);
-console.log(
-  "Number of invaild property records: ",
+  "Number of invalid property records: ",
   properties.length - getProperties().length,
 );
