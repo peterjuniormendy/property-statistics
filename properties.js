@@ -218,12 +218,12 @@ const getProperties = () => {
   );
   return validProperties;
 };
-console.log("properties:", getProperties());
 
 const getPropertyById = (id) => {
   const validProperties = getProperties();
   return validProperties.find((property) => property.id === id);
 };
+
 const getTotalProperties = () => {
   const validProperties = getProperties();
   return validProperties.length;
@@ -239,6 +239,7 @@ const getPropertiesWithValidPrice = () => {
   );
   return propertiesWithValidPrice;
 };
+
 const getAveragePrice = () => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice();
   if (propertiesWithValidPrice.length === 0) return 0;
@@ -254,10 +255,8 @@ const getCheapestProperty = () => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice();
   if (propertiesWithValidPrice.length === 0) return null;
   const cheapestProperty = propertiesWithValidPrice.reduce(
-    (cheapest, property) => {
-      return property.price < cheapest.price ? property : cheapest;
-    },
-    0,
+    (cheapest, property) =>
+      property.price < cheapest.price ? property : cheapest,
   );
   return cheapestProperty;
 };
@@ -266,10 +265,8 @@ const getMostExpensiveProperty = () => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice();
   if (propertiesWithValidPrice.length === 0) return null;
   const mostExpensiveProperty = propertiesWithValidPrice.reduce(
-    (mostExpensive, property) => {
-      return property.price > mostExpensive.price ? property : mostExpensive;
-    },
-    0,
+    (mostExpensive, property) =>
+      property.price > mostExpensive.price ? property : mostExpensive,
   );
   return mostExpensiveProperty;
 };
@@ -322,7 +319,6 @@ const countByPropertyType = () => {
 
   return counts;
 };
-console.log("countByPropertyType:", countByPropertyType());
 
 const isObject = (obj) => {
   return obj !== null && typeof obj === "object" && !Array.isArray(obj);
@@ -359,49 +355,48 @@ const searchProperties = (criteria) => {
   });
   return results;
 };
-console.log("search:", searchProperties({ maxPrice: 0 }));
 
-const medianPropertyPrice = () => {
-  const propertiesWithValidPrice = getPropertiesWithValidPrice();
-  if (propertiesWithValidPrice.length === 0) return 0;
-  const sortedProperties = propertiesWithValidPrice.sort(
-    (a, b) => a.price - b.price,
-  );
-  const middleIndex = Math.floor(sortedProperties.length / 2);
-  if (sortedProperties.length % 2 === 0) {
-    return (
-      (sortedProperties[middleIndex - 1].price +
-        sortedProperties[middleIndex].price) /
-      2
-    );
-  } else {
-    return sortedProperties[middleIndex].price;
-  }
-};
-const mostCommonLocation = () => {
-  const validProperties = getProperties();
-  const locationCount = validProperties.reduce((count, property) => {
-    count[property.location] = (count[property.location] || 0) + 1;
-    return count;
-  }, {});
-  return Object.keys(locationCount).reduce((mostCommon, location) => {
-    return locationCount[location] > locationCount[mostCommon]
-      ? location
-      : mostCommon;
-  });
-};
-const averagePricePerBedroom = () => {
-  const propertiesWithValidPrice = getPropertiesWithValidPrice();
-  const totalValue = propertiesWithValidPrice.reduce((total, property) => {
-    if (propertiesWithValidPrice.length === 0) return 0;
-    return total + property.price;
-  }, 0);
-  const totalBedrooms = propertiesWithValidPrice.reduce((total, property) => {
-    if (propertiesWithValidPrice.length === 0) return 0;
-    return total + property.bedrooms;
-  }, 0);
-  return totalValue / totalBedrooms;
-};
+// const medianPropertyPrice = () => {
+//   const propertiesWithValidPrice = getPropertiesWithValidPrice();
+//   if (propertiesWithValidPrice.length === 0) return 0;
+//   const sortedProperties = propertiesWithValidPrice.sort(
+//     (a, b) => a.price - b.price,
+//   );
+//   const middleIndex = Math.floor(sortedProperties.length / 2);
+//   if (sortedProperties.length % 2 === 0) {
+//     return (
+//       (sortedProperties[middleIndex - 1].price +
+//         sortedProperties[middleIndex].price) /
+//       2
+//     );
+//   } else {
+//     return sortedProperties[middleIndex].price;
+//   }
+// };
+// const mostCommonLocation = () => {
+//   const validProperties = getProperties();
+//   const locationCount = validProperties.reduce((count, property) => {
+//     count[property.location] = (count[property.location] || 0) + 1;
+//     return count;
+//   }, {});
+//   return Object.keys(locationCount).reduce((mostCommon, location) => {
+//     return locationCount[location] > locationCount[mostCommon]
+//       ? location
+//       : mostCommon;
+//   });
+// };
+// const averagePricePerBedroom = () => {
+//   const propertiesWithValidPrice = getPropertiesWithValidPrice();
+//   const totalValue = propertiesWithValidPrice.reduce((total, property) => {
+//     if (propertiesWithValidPrice.length === 0) return 0;
+//     return total + property.price;
+//   }, 0);
+//   const totalBedrooms = propertiesWithValidPrice.reduce((total, property) => {
+//     if (propertiesWithValidPrice.length === 0) return 0;
+//     return total + property.bedrooms;
+//   }, 0);
+//   return totalValue / totalBedrooms;
+// };
 
 const highestPricedByLocation = () => {
   const highestPrices = {};
@@ -411,7 +406,7 @@ const highestPricedByLocation = () => {
       !highestPrices[property.location] ||
       property.price > highestPrices[property.location].price
     ) {
-      highestPrices[property.location] = property;
+      highestPrices[property.location].toLowerCase() = property;
     }
   });
   return highestPrices;
