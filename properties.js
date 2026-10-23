@@ -443,7 +443,8 @@ const highestPricedByLocation = () => {
   });
   return highestPrices;
 };
-
+console.log("PROPERTY STATISTICS");
+console.log("===================");
 console.log("Get total properties: ", getTotalProperties());
 console.log(
   "Get average price: ",
