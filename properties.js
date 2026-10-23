@@ -228,11 +228,11 @@ const isEmpty = (obj) => {
 
 const formatProperty = (property) => {
   if (!isObject(property)) return "Invalid property from.";
-  if (isEmpty) return "Empty property";
+  if (isEmpty(property)) return "Empty property";
   let id = `#${property.id}`;
   let name = property.name ?? "No name";
   let propertyLocation =
-    property[location][0].toUpperCase() + property[location].slice(1) ??
+    property.location[0].toUpperCase() + property.location.slice(1) ??
     "Missing location";
   let price = property.price.toLocaleString("en-GB", {
     style: "currency",
@@ -242,7 +242,7 @@ const formatProperty = (property) => {
   let baths = `${property.bathrooms} baths`;
 
   let propertyType =
-    property[type][0].toUpperCase() + property[type].slice(1) ?? "No type";
+    property.type[0].toUpperCase() + property.type.slice(1) ?? "No type";
 
   return `${id} ${name} - ${propertyLocation} - ${price} - ${beds} - ${baths} - ${propertyType}`;
 };
