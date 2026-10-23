@@ -229,20 +229,27 @@ const isEmpty = (obj) => {
 const formatProperty = (property) => {
   if (!isObject(property)) return "Invalid property from.";
   if (isEmpty(property)) return "Empty property";
-  let id = `#${property.id}`;
-  let name = property.name ?? "No name";
-  let propertyLocation =
-    property.location[0].toUpperCase() + property.location.slice(1) ??
-    "Missing location";
-  let price = property.price.toLocaleString("en-GB", {
-    style: "currency",
-    currency: "GBP",
-  });
-  let beds = `${property.bedrooms} beds`;
-  let baths = `${property.bathrooms} baths`;
+  let id = property.id ? `#${property.id}` : "";
+  let name = property.name ? property.name : "No name";
+  let propertyLocation = property.location
+    ? property.location[0].toUpperCase() + property.location.slice(1)
+    : "Missing location";
+  let price = property.price
+    ? property.price.toLocaleString("en-GB", {
+        style: "currency",
+        currency: "GBP",
+      })
+    : "Missing price";
+  let beds = property.bedrooms
+    ? `${property.bedrooms} beds`
+    : "Missing Bedrooms";
+  let baths = property.bathrooms
+    ? `${property.bathrooms} baths`
+    : "Missing bathrooms";
 
-  let propertyType =
-    property.type[0].toUpperCase() + property.type.slice(1) ?? "No type";
+  let propertyType = property.type
+    ? property.type[0].toUpperCase() + property.type.slice(1)
+    : "No type";
 
   return `${id} ${name} - ${propertyLocation} - ${price} - ${beds} - ${baths} - ${propertyType}`;
 };
@@ -283,7 +290,7 @@ const getAveragePrice = () => {
     (total, property) => total + property.price,
     0,
   );
-  return (totalPrice / propertiesWithValidPrice.length).toFixed(2);
+  return totalPrice / propertiesWithValidPrice.length;
 };
 
 const getCheapestProperty = () => {
@@ -459,7 +466,10 @@ console.log(
   formatProperty(getMostExpensiveProperty()),
 );
 console.log("Count properties by type: ", countByPropertyType());
-console.log("Search property: ", searchProperties({ maxPrice: 300000 }));
+console.log(
+  "Search property: ",
+  searchProperties({ maxPrice: 300000 }).map(formatProperty),
+);
 console.log(
   "Number of invalid property records: ",
   properties.length - getProperties().length,
