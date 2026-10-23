@@ -493,7 +493,12 @@ console.log(
   "Filter by min bedrooms: ",
   filterByBedrooms(2).map(formatProperty),
 );
-console.log("Highest price per location: ", highestPricedByLocation());
+console.log(
+  "Highest price per location: ",
+  Object.values(highestPricedByLocation()).map(
+    (property) => property.location + ": " + formatProperty(property),
+  ),
+);
 console.log(
   "Number of invalid property records: ",
   getInvalidProperties().length,
