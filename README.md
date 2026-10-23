@@ -20,10 +20,14 @@ This is a vanilla JavaScript project mainly to simplify property listings and ho
 
 ## Bad records table
 
-│ (index) │ id │ name │ location │ price │ bedrooms │ bathrooms │ type │ area │
-| 17 │ 18 │ 'waterfront' │ 'liverpool' │ 1800000 │ -2 │ 1 │ 'Apartment' │ 10000 │
-│ 18 │ '' │ 'royal gardens' │ 'london' │ 1900000 │ 2 │ 2 │ 'Apartment' │ 10500 │
-│ 19 │ 'as20' │ 'grand estate' │ 'huddersfield' │ 2000000 │ 4 │ 4 │ 'House' │ 11000 │
+| ID  | Problem | How the program handles it |
+| --- | ------- | -------------------------- |
+
+| 2 | Price is "gfd" (not a number) | Kept, but excluded from price calculations; shows "Missing price" |
+| '' | No id | Rejected: No property is|
+| 18 | Bathroom is -2 (negative number) | Rejected: negative bathroom count |
+| 'as20 | Not a valid ID | Rejected: Invalid property ID |
+| 15 | no property type | Kept, but shows "Missing price" |
 
 ## Extra feature
 
