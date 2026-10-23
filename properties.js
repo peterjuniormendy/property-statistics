@@ -241,9 +241,10 @@ const formatProperty = (property) => {
           currency: "GBP",
         })
       : "Missing price";
-  let beds = property.bedrooms
-    ? `${property.bedrooms} beds`
-    : "Missing Bedrooms";
+  let beds =
+    property.bedrooms !== undefined
+      ? `${property.bedrooms} beds`
+      : "Missing Bedrooms";
   let baths =
     property.bathrooms &&
     typeof property.bathrooms === "number" &&
