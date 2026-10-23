@@ -234,22 +234,27 @@ const formatProperty = (property) => {
   let propertyLocation = property.location
     ? property.location[0].toUpperCase() + property.location.slice(1)
     : "Missing location";
-  let price = property.price
-    ? property.price.toLocaleString("en-GB", {
-        style: "currency",
-        currency: "GBP",
-      })
-    : "Missing price";
+  let price =
+    property.price && typeof property.price === "number"
+      ? property.price.toLocaleString("en-GB", {
+          style: "currency",
+          currency: "GBP",
+        })
+      : "Missing price";
   let beds = property.bedrooms
     ? `${property.bedrooms} beds`
     : "Missing Bedrooms";
-  let baths = property.bathrooms
-    ? `${property.bathrooms} baths`
-    : "Missing bathrooms";
+  let baths =
+    property.bathrooms &&
+    typeof property.bathrooms === "number" &&
+    property.bathrooms >= 0
+      ? `${property.bathrooms} baths`
+      : "Missing bathrooms";
 
-  let propertyType = property.type
-    ? property.type[0].toUpperCase() + property.type.slice(1)
-    : "No type";
+  let propertyType =
+    property.type && typeof property.type === "string"
+      ? property.type[0].toUpperCase() + property.type.slice(1)
+      : "No type";
 
   return `${id} ${name} - ${propertyLocation} - ${price} - ${beds} - ${baths} - ${propertyType}`;
 };
