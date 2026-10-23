@@ -246,7 +246,7 @@ const formatProperty = (property) => {
       ? `${property.bedrooms} beds`
       : "Missing Bedrooms";
   let baths =
-    property.bathrooms && typeof property.bathrooms === "number"
+    property.bathrooms !== undefined && typeof property.bathrooms === "number"
       ? `${property.bathrooms} baths`
       : "Missing bathrooms";
 
