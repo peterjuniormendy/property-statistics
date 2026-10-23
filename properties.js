@@ -227,7 +227,7 @@ const isEmpty = (obj) => {
 };
 
 const formatProperty = (property) => {
-  if (!isObject(property)) return "Invalid property from.";
+  if (!isObject(property)) return "Invalid property format.";
   if (isEmpty(property)) return "Empty property";
   let id = property.id ? `#${property.id}` : "";
   let name = property.name ? property.name : "No name";
@@ -235,7 +235,7 @@ const formatProperty = (property) => {
     ? property.location[0].toUpperCase() + property.location.slice(1)
     : "Missing location";
   let price =
-    property.price && typeof property.price === "number"
+    property.price !== undefined && typeof property.price === "number"
       ? property.price.toLocaleString("en-GB", {
           style: "currency",
           currency: "GBP",
@@ -246,9 +246,7 @@ const formatProperty = (property) => {
       ? `${property.bedrooms} beds`
       : "Missing Bedrooms";
   let baths =
-    property.bathrooms &&
-    typeof property.bathrooms === "number" &&
-    property.bathrooms >= 0
+    property.bathrooms && typeof property.bathrooms === "number"
       ? `${property.bathrooms} baths`
       : "Missing bathrooms";
 
@@ -265,6 +263,13 @@ const getProperties = () => {
     isValidProperty(property),
   );
   return validProperties;
+};
+
+const getInvalidProperties = () => {
+  const invalidProperties = properties.filter(
+    (property) => !isValidProperty(property),
+  );
+  return invalidProperties;
 };
 
 const getPropertyById = (id) => {
@@ -326,7 +331,7 @@ const getAverageBedrooms = () => {
     (total, property) => total + property.bedrooms,
     0,
   );
-  return (totalBedrooms / validProperties.length).toFixed(2);
+  return (totalBedrooms / validProperties.length).toFixed(1);
 };
 
 const filterByLocation = (location) => {
@@ -473,10 +478,14 @@ console.log(
 );
 console.log("Count properties by type: ", countByPropertyType());
 console.log(
-  "Search property: ",
+  "Search properties: ",
   searchProperties({ maxPrice: 300000 }).map(formatProperty),
 );
 console.log(
   "Number of invalid property records: ",
-  properties.length - getProperties().length,
+  getInvalidProperties().length,
+  ", IDs: ",
+  getInvalidProperties().map((property) => {
+    return property.id;
+  }),
 );
