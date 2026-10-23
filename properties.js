@@ -228,7 +228,8 @@ const getTotalProperties = () => {
   const validProperties = getProperties();
   return validProperties.length;
 };
-const getAveragePrice = () => {
+
+const getPropertiesWithValidPrice = () => {
   const validProperties = getProperties();
   const propertiesWithValidPrice = validProperties.filter(
     (property) =>
@@ -236,6 +237,10 @@ const getAveragePrice = () => {
       typeof property.price === "number" &&
       property.price >= 0,
   );
+  return propertiesWithValidPrice;
+};
+const getAveragePrice = () => {
+  const propertiesWithValidPrice = getPropertiesWithValidPrice();
   if (propertiesWithValidPrice.length === 0) return 0;
 
   const totalPrice = propertiesWithValidPrice.reduce(
@@ -246,44 +251,53 @@ const getAveragePrice = () => {
 };
 
 const getCheapestProperty = () => {
-  return properties.reduce((cheapest, property) => {
+  const propertiesWithValidPrice = getPropertiesWithValidPrice();
+  return propertiesWithValidPrice.reduce((cheapest, property) => {
     return property.price < cheapest.price ? property : cheapest;
   });
 };
 
 const getMostExpensiveProperty = () => {
-  return properties.reduce((mostExpensive, property) => {
+  const propertiesWithValidPrice = getPropertiesWithValidPrice();
+  return propertiesWithValidPrice.reduce((mostExpensive, property) => {
     return property.price > mostExpensive.price ? property : mostExpensive;
   });
 };
 
 const getAverageBedrooms = () => {
-  const totalBedrooms = properties.reduce(
+  const validProperties = getProperties();
+  if (validProperties.length === 0) return 0;
+  const totalBedrooms = validProperties.reduce(
     (total, property) => total + property.bedrooms,
     0,
   );
-  return totalBedrooms / properties.length;
+  return totalBedrooms / validProperties.length;
 };
 
 const filterByLocation = (location) => {
-  const getPropertiesByLocation = properties.filter(
+  const validProperties = getProperties();
+  const getPropertiesByLocation = validProperties.filter(
     (property) => property.location.toLowerCase() === location.toLowerCase(),
   );
   return getPropertiesByLocation;
 };
 
 const filterByPrice = (price) => {
-  const getPropertiesByPrice = properties.filter(
+  const propertiesWithValidPrice = getPropertiesWithValidPrice();
+  const getPropertiesByPrice = propertiesWithValidPrice.filter(
     (property) => property.price <= price,
   );
   return getPropertiesByPrice;
 };
+
 const filterByBedrooms = (numberOfBedrooms) => {
-  const getPropertiesByBedrooms = properties.filter(
-    (property) => property.bedrooms === numberOfBedrooms,
+  const validProperties = getProperties();
+  const getPropertiesByBedrooms = validProperties.filter(
+    (property) => property.bedrooms >= numberOfBedrooms,
   );
   return getPropertiesByBedrooms;
 };
+
 const countByPropertyType = () => {
   const validProperties = getProperties();
   const counts = {};
@@ -337,8 +351,12 @@ const searchProperties = (criteria) => {
 };
 console.log("search:", searchProperties({ maxPrice: 0 }));
 
-medianPropertyPrice = () => {
-  const sortedProperties = properties.sort((a, b) => a.price - b.price);
+const medianPropertyPrice = () => {
+  const propertiesWithValidPrice = getPropertiesWithValidPrice();
+  if (propertiesWithValidPrice.length === 0) return 0;
+  const sortedProperties = propertiesWithValidPrice.sort(
+    (a, b) => a.price - b.price,
+  );
   const middleIndex = Math.floor(sortedProperties.length / 2);
   if (sortedProperties.length % 2 === 0) {
     return (
@@ -346,10 +364,13 @@ medianPropertyPrice = () => {
         sortedProperties[middleIndex].price) /
       2
     );
+  } else {
+    return sortedProperties[middleIndex - 1].price;
   }
 };
-mostCommonLocation = () => {
-  const locationCount = properties.reduce((count, property) => {
+const mostCommonLocation = () => {
+  const validProperties = getProperties();
+  const locationCount = validProperties.reduce((count, property) => {
     count[property.location] = (count[property.location] || 0) + 1;
     return count;
   }, {});
@@ -359,21 +380,23 @@ mostCommonLocation = () => {
       : mostCommon;
   });
 };
-averagePricePerBedroom = () => {
-  const totalValue = properties.reduce(
-    (total, property) => total + property.price,
-    0,
-  );
-  const totalBedrooms = properties.reduce(
-    (total, property) => total + property.bedrooms,
-    0,
-  );
+const averagePricePerBedroom = () => {
+  const propertiesWithValidPrice = getPropertiesWithValidPrice();
+  const totalValue = propertiesWithValidPrice.reduce((total, property) => {
+    if (propertiesWithValidPrice.length === 0) return 0;
+    return total + property.price;
+  }, 0);
+  const totalBedrooms = propertiesWithValidPrice.reduce((total, property) => {
+    if (propertiesWithValidPrice.length === 0) return 0;
+    return total + property.bedrooms;
+  }, 0);
   return totalValue / totalBedrooms;
 };
 
-highestPricedByLocation = () => {
+const highestPricedByLocation = () => {
   const highestPrices = {};
-  properties.forEach((property) => {
+  const propertiesWithValidPrice = getPropertiesWithValidPrice();
+  propertiesWithValidPrice.forEach((property) => {
     if (
       !highestPrices[property.location] ||
       property.price > highestPrices[property.location].price
