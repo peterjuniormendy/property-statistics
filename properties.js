@@ -471,6 +471,8 @@ console.log(
     currency: "GBP",
   }),
 );
+
+console.log("Get average Bedrooms: ", getAverageBedrooms());
 console.log("Get cheapest property: ", formatProperty(getCheapestProperty()));
 console.log(
   "Get most expensive property: ",
@@ -481,6 +483,17 @@ console.log(
   "Search properties: ",
   searchProperties({ maxPrice: 300000 }).map(formatProperty),
 );
+
+console.log(
+  "Filter property by locaiton",
+  filterByLocation("leeds").map(formatProperty),
+);
+console.log("Filter by max Price: ", filterByPrice(200000).map(formatProperty));
+console.log(
+  "Filter by min bedrooms: ",
+  filterByBedrooms(2).map(formatProperty),
+);
+console.log("Highest price per location: ", highestPricedByLocation());
 console.log(
   "Number of invalid property records: ",
   getInvalidProperties().length,
