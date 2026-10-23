@@ -403,10 +403,10 @@ const highestPricedByLocation = () => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice();
   propertiesWithValidPrice.forEach((property) => {
     if (
-      !highestPrices[property.location] ||
-      property.price > highestPrices[property.location].price
+      !highestPrices[property.location.toLowerCase()] ||
+      property.price > highestPrices[property.location.toLowerCase()].price
     ) {
-      highestPrices[property.location].toLowerCase() = property;
+      highestPrices[property.location.toLowerCase()] = property;
     }
   });
   return highestPrices;
