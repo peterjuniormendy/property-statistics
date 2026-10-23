@@ -252,16 +252,26 @@ const getAveragePrice = () => {
 
 const getCheapestProperty = () => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice();
-  return propertiesWithValidPrice.reduce((cheapest, property) => {
-    return property.price < cheapest.price ? property : cheapest;
-  });
+  if (propertiesWithValidPrice.length === 0) return null;
+  const cheapestProperty = propertiesWithValidPrice.reduce(
+    (cheapest, property) => {
+      return property.price < cheapest.price ? property : cheapest;
+    },
+    0,
+  );
+  return cheapestProperty;
 };
 
 const getMostExpensiveProperty = () => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice();
-  return propertiesWithValidPrice.reduce((mostExpensive, property) => {
-    return property.price > mostExpensive.price ? property : mostExpensive;
-  });
+  if (propertiesWithValidPrice.length === 0) return null;
+  const mostExpensiveProperty = propertiesWithValidPrice.reduce(
+    (mostExpensive, property) => {
+      return property.price > mostExpensive.price ? property : mostExpensive;
+    },
+    0,
+  );
+  return mostExpensiveProperty;
 };
 
 const getAverageBedrooms = () => {
