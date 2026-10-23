@@ -12,10 +12,10 @@ This is a vanilla JavaScript project mainly to simplify property listings and ho
 - Compare and count property types in lowercase.
 - Missing bathroom count is allowed; treat it as unknown and exclude it from bathroom calculations.
 - Price of zero is valid and included in the price calculations.
-- If an property name is missing, it's displayed as 'No name'.
-- If an property price is missing, it's displayed as 'Missing price'.
-- If an property bedrooms is missing, it's displayed as 'Missing bedrooms'.
-- If an property bathrooms is missing, it's displayed as 'Missing bathrooms'.
+- If a property name is missing, it's displayed as 'No name'.
+- If a property price is missing, it's displayed as 'Missing price'.
+- If a property bedrooms is missing, it's displayed as 'Missing bedrooms'.
+- If a property bathrooms is missing, it's displayed as 'Missing bathrooms'.
 - All property types are displayed by capitalizing the first letter.
 
 ## Bad records table
