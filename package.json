@@ -1,0 +1,25 @@
+{
+  "name": "property-statistics",
+  "version": "1.0.0",
+  "description": "This is a vanilla JavaScript project mainly to simplify property listings and how to request or manage those listings. This project can be run by navigating into the project folder property-statistics and running `node properties.js` in the terminal.",
+  "main": "properties.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterjuniormendy/property-statistics.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/peterjuniormendy/property-statistics/issues"
+  },
+  "homepage": "https://github.com/peterjuniormendy/property-statistics#readme",
+  "devDependencies": {
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
