@@ -1,5 +1,5 @@
-import { properties } from "./data.js";
-import { Property } from "./types/property.js";
+import { properties } from "./data";
+import type { Property } from "./types/property";
 
 const isValidProperty = (property) => {
   if (!property) {
