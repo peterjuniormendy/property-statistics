@@ -1,6 +1,6 @@
 # property-statistics
 
-This is a vanilla JavaScript project mainly to simplify property listings and how to request or manage those listings. This project can be run by navigating into the project folder property-statistics and running `node properties.js` in the terminal.
+This is a TypeScript project mainly to simplify property listings and how to request or manage those listings. This project can be run by navigating into the project folder property-statistics and running `npm start` in the terminal.
 
 ## Agreed data rules
 

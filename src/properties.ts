@@ -1,7 +1,8 @@
 import { properties } from "./data";
+import type { Criteria } from "./types/criteria";
 import type { Property } from "./types/property";
 
-const isValidProperty = (property) => {
+const isValidProperty = (property: Property) => {
   if (!property) {
     return false;
   } else if (!property.id || typeof property.id !== "number") {
@@ -13,11 +14,11 @@ const isValidProperty = (property) => {
   }
 };
 
-const isObject = (obj) => {
+const isObject = (obj: object) => {
   return obj !== null && typeof obj === "object" && !Array.isArray(obj);
 };
 
-const isEmpty = (obj) => {
+const isEmpty = (obj: object) => {
   for (const prop in obj) {
     if (Object.hasOwn(obj, prop)) {
       return false;
@@ -27,13 +28,13 @@ const isEmpty = (obj) => {
   return true;
 };
 
-const formatProperty = (property) => {
+const formatProperty = (property: Property) => {
   if (!isObject(property)) return "Invalid property format.";
   if (isEmpty(property)) return "Empty property";
   let id = property.id ? `#${property.id}` : "";
   let name = property.name ? property.name : "No name";
   let propertyLocation = property.location
-    ? property.location[0].toUpperCase() + property.location.slice(1)
+    ? property.location.charAt(0).toUpperCase() + property.location.slice(1)
     : "Missing location";
   let price =
     property.price !== undefined && typeof property.price === "number"
@@ -53,7 +54,7 @@ const formatProperty = (property) => {
 
   let propertyType =
     property.type && typeof property.type === "string"
-      ? property.type[0].toUpperCase() + property.type.slice(1)
+      ? property.type.charAt(0).toUpperCase() + property.type.slice(1)
       : "No type";
 
   return `${id} ${name} - ${propertyLocation} - ${price} - ${beds} - ${baths} - ${propertyType}`;
@@ -73,7 +74,7 @@ const getInvalidProperties = () => {
   return invalidProperties;
 };
 
-const getPropertyById = (id) => {
+const getPropertyById = (id: number) => {
   const validProperties = getProperties();
   return validProperties.find((property) => property.id === id);
 };
@@ -99,7 +100,8 @@ const getAveragePrice = () => {
   if (propertiesWithValidPrice.length === 0) return 0;
 
   const totalPrice = propertiesWithValidPrice.reduce(
-    (total, property) => total + property.price,
+    (total, property) =>
+      property.price !== undefined ? total + property.price : total,
     0,
   );
   return totalPrice / propertiesWithValidPrice.length;
@@ -110,7 +112,11 @@ const getCheapestProperty = () => {
   if (propertiesWithValidPrice.length === 0) return null;
   const cheapestProperty = propertiesWithValidPrice.reduce(
     (cheapest, property) =>
-      property.price < cheapest.price ? property : cheapest,
+      property.price !== undefined &&
+      cheapest.price !== undefined &&
+      property.price < cheapest.price
+        ? property
+        : cheapest,
   );
   return cheapestProperty;
 };
@@ -120,7 +126,11 @@ const getMostExpensiveProperty = () => {
   if (propertiesWithValidPrice.length === 0) return null;
   const mostExpensiveProperty = propertiesWithValidPrice.reduce(
     (mostExpensive, property) =>
-      property.price > mostExpensive.price ? property : mostExpensive,
+      property.price !== undefined &&
+      mostExpensive.price !== undefined &&
+      property.price > mostExpensive.price
+        ? property
+        : mostExpensive,
   );
   return mostExpensiveProperty;
 };
@@ -135,7 +145,7 @@ const getAverageBedrooms = () => {
   return (totalBedrooms / validProperties.length).toFixed(1);
 };
 
-const filterByLocation = (location) => {
+const filterByLocation = (location: string) => {
   const validProperties = getProperties();
   const getPropertiesByLocation = validProperties.filter(
     (property) => property.location.toLowerCase() === location.toLowerCase(),
@@ -143,15 +153,15 @@ const filterByLocation = (location) => {
   return getPropertiesByLocation;
 };
 
-const filterByPrice = (price) => {
+const filterByPrice = (price: number) => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice();
   const getPropertiesByPrice = propertiesWithValidPrice.filter(
-    (property) => property.price <= price,
+    (property) => property.price !== undefined && property.price <= price,
   );
   return getPropertiesByPrice;
 };
 
-const filterByBedrooms = (numberOfBedrooms) => {
+const filterByBedrooms = (numberOfBedrooms: number) => {
   const validProperties = getProperties();
   const getPropertiesByBedrooms = validProperties.filter(
     (property) => property.bedrooms >= numberOfBedrooms,
@@ -174,11 +184,11 @@ const countByPropertyType = () => {
   return counts;
 };
 
-const searchProperties = (criteria) => {
+const searchProperties = (criteria: Criteria) => {
   if (!isObject(criteria))
     return "Invalid search term. Please provide an object.";
   const validProperties = getProperties();
-  const results = [];
+  const results: Property[] = [];
   validProperties.forEach((property) => {
     let isMatch = true;
     if (
