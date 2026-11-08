@@ -15,7 +15,7 @@ export const properties: RawProperty[] = [
     id: 2,
     name: "Rise Apartments",
     location: "leeds",
-    price: undefined,
+    price: "gfd",
     bedrooms: 4,
     bathrooms: 3,
     type: "House",

@@ -14,6 +14,15 @@ const isValidProperty = (property: RawProperty): property is Property => {
   }
 };
 
+const toProperty = (raw: Property): Property => {
+  return {
+    ...raw,
+    price: typeof raw.price === "number" ? raw.price : undefined,
+    bathrooms: typeof raw.bathrooms === "number" ? raw.bathrooms : undefined,
+    area: typeof raw.area === "number" ? raw.area : undefined,
+  };
+};
+
 const isObject = (obj: object) => {
   return obj !== null && typeof obj === "object" && !Array.isArray(obj);
 };
@@ -61,11 +70,13 @@ const formatProperty = (property: Property) => {
 };
 
 const getProperties = () => {
-  const validProperties = properties.filter((property) =>
-    isValidProperty(property),
-  );
+  const validProperties = properties
+    .filter((property) => isValidProperty(property))
+    .map((validProperty) => toProperty(validProperty));
   return validProperties;
 };
+console.log("##############");
+console.log(getProperties().find((p) => p.id === 2));
 
 const getInvalidProperties = () => {
   const invalidProperties = properties.filter(
