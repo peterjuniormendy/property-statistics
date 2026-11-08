@@ -1,6 +1,6 @@
-import type { Property } from "./types/property";
+import type { Property, RawProperty } from "./types/property";
 
-export const properties: Property[] = [
+export const properties: RawProperty[] = [
   {
     id: 1,
     name: "luxury bungalow",
