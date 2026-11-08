@@ -304,12 +304,7 @@ console.log(
 );
 console.log("Count properties by type: ", countByPropertyType());
 const searchResults = searchProperties({ maxPrice: 300000 });
-console.log(
-  "Search properties: ",
-  Array.isArray(searchResults)
-    ? searchResults.map(formatProperty)
-    : searchResults,
-);
+console.log("Search properties: ", searchResults.map(formatProperty));
 
 console.log(
   "Filter property by location",
