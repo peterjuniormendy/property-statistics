@@ -1,6 +1,6 @@
 import { properties } from "./data";
 import type { Criteria } from "./types/criteria";
-import type { Property, RawProperty, Counts } from "./types/property";
+import type { Property, RawProperty } from "./types/property";
 
 const isValidProperty = (property: RawProperty): property is Property => {
   if (!property) {
@@ -183,19 +183,14 @@ const countByPropertyType = () => {
   const counts: Record<string, number> = {};
   validProperties.forEach((property) => {
     const type = (property.type || "no type").toLowerCase();
-    if (type in counts) {
-      counts[type] = (counts[type] ?? 0) + 1;
-    } else {
-      counts[type] = 1;
-    }
+    counts[type] = (counts[type] ?? 0) + 1;
   });
 
   return counts;
 };
 
 const searchProperties = (criteria: Criteria) => {
-  if (!isObject(criteria))
-    return "Invalid search term. Please provide an object.";
+  if (!isObject(criteria)) return [];
   const validProperties = getProperties();
   const results: Property[] = [];
   validProperties.forEach((property) => {
@@ -317,7 +312,7 @@ console.log(
 );
 
 console.log(
-  "Filter property by locaiton",
+  "Filter property by location",
   filterByLocation("leeds").map(formatProperty),
 );
 console.log("Filter by max Price: ", filterByPrice(200000).map(formatProperty));
