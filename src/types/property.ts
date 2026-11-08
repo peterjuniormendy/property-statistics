@@ -10,12 +10,12 @@ export type Property = {
 };
 
 export type RawProperty = {
-  id: number | string | null;
+  id: number | string | undefined;
   name?: string;
   location: string;
-  price?: number | string | null;
+  price?: number | string | undefined;
   bedrooms: number;
-  bathrooms?: number | string | null;
+  bathrooms?: number | string | undefined;
   type?: string;
-  area?: number | string | null;
+  area?: number | string | undefined;
 };
