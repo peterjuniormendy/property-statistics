@@ -1,8 +1,8 @@
 import { properties } from "./data";
 import type { Criteria } from "./types/criteria";
-import type { Property } from "./types/property";
+import type { Property, RawProperty } from "./types/property";
 
-const isValidProperty = (property: Property) => {
+const isValidProperty = (property: RawProperty): property is Property => {
   if (!property) {
     return false;
   } else if (!property.id || typeof property.id !== "number") {
