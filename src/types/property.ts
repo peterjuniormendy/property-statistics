@@ -19,3 +19,11 @@ export type RawProperty = {
   type?: string;
   area?: number | string | undefined;
 };
+
+export type Counts = {
+  house: number;
+  apartment: number;
+  studio: number;
+  "semi-detached": number;
+  "no type": number;
+};

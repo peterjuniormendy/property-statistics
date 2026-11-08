@@ -1,6 +1,6 @@
 import { properties } from "./data";
 import type { Criteria } from "./types/criteria";
-import type { Property, RawProperty } from "./types/property";
+import type { Property, RawProperty, Counts } from "./types/property";
 
 const isValidProperty = (property: RawProperty): property is Property => {
   if (!property) {
@@ -75,8 +75,6 @@ const getProperties = () => {
     .map((validProperty) => toProperty(validProperty));
   return validProperties;
 };
-console.log("##############");
-console.log(getProperties().find((p) => p.id === 2));
 
 const getInvalidProperties = () => {
   const invalidProperties = properties.filter(
@@ -182,11 +180,11 @@ const filterByBedrooms = (numberOfBedrooms: number) => {
 
 const countByPropertyType = () => {
   const validProperties = getProperties();
-  const counts = {};
+  const counts: Record<string, number> = {};
   validProperties.forEach((property) => {
     const type = (property.type || "no type").toLowerCase();
     if (type in counts) {
-      counts[type] += 1;
+      counts[type] = (counts[type] ?? 0) + 1;
     } else {
       counts[type] = 1;
     }
@@ -270,13 +268,15 @@ const searchProperties = (criteria: Criteria) => {
 // };
 
 const highestPricedByLocation = () => {
-  const highestPrices = {};
+  const highestPrices: Record<string, Property> = {};
   const propertiesWithValidPrice = getPropertiesWithValidPrice();
   propertiesWithValidPrice.forEach((property) => {
-    let location = property.location.toLowerCase();
+    const location = property.location.toLowerCase();
+    const currentHighest = highestPrices[location];
+
     if (
-      !highestPrices[location] ||
-      property.price > highestPrices[location].price
+      !currentHighest ||
+      (property.price ?? 0) > (currentHighest.price ?? 0)
     ) {
       highestPrices[location] = property;
     }
@@ -295,15 +295,25 @@ console.log(
 );
 
 console.log("Get average Bedrooms: ", getAverageBedrooms());
-console.log("Get cheapest property: ", formatProperty(getCheapestProperty()));
+const cheapestProperty = getCheapestProperty();
+console.log(
+  "Get cheapest property: ",
+  cheapestProperty ? formatProperty(cheapestProperty) : "No properties found",
+);
+const mostExpensiveProperty = getMostExpensiveProperty();
 console.log(
   "Get most expensive property: ",
-  formatProperty(getMostExpensiveProperty()),
+  mostExpensiveProperty
+    ? formatProperty(mostExpensiveProperty)
+    : "No properties found",
 );
 console.log("Count properties by type: ", countByPropertyType());
+const searchResults = searchProperties({ maxPrice: 300000 });
 console.log(
   "Search properties: ",
-  searchProperties({ maxPrice: 300000 }).map(formatProperty),
+  Array.isArray(searchResults)
+    ? searchResults.map(formatProperty)
+    : searchResults,
 );
 
 console.log(
