@@ -2,11 +2,11 @@ export type Property = {
   id: number;
   name?: string;
   location: string;
-  price?: number;
+  price?: number | undefined;
   bedrooms: number;
-  bathrooms?: number;
+  bathrooms?: number | undefined;
   type?: string;
-  area?: number;
+  area?: number | undefined;
 };
 
 export type RawProperty = {
