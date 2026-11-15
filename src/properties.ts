@@ -329,3 +329,31 @@ console.log(
     return property.id;
   }),
 );
+
+// week-02 friday.test exercise
+function PricePerBedroom() {
+  const pricePerBedroom: object[] = [];
+  properties.forEach((property: RawProperty) => {
+    if (
+      property &&
+      property.price !== undefined &&
+      typeof property.price == "number" &&
+      property.bedrooms !== undefined &&
+      typeof property.bedrooms === "number" &&
+      property.bedrooms >= 0
+    ) {
+      const name = property.name ? property.name : "";
+      const result =
+        property.bedrooms === 0
+          ? property.price.toFixed(2)
+          : (property.price / property.bedrooms).toFixed(2);
+      const prop = {
+        [name]: result,
+      };
+      pricePerBedroom.push(prop);
+    }
+  });
+
+  return pricePerBedroom;
+}
+console.log(PricePerBedroom());
