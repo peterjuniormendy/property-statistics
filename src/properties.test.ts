@@ -22,8 +22,8 @@ describe("PricePerBedroom", () => {
     ];
 
     expect(PricePerBedroom(properties)).toEqual([
-      { "Property A": "100000.00" },
-      { "Property B": "100000.00" },
+      { id: 1, name: "Property A", pricePerBedroom: "100000.00" },
+      { id: 2, name: "Property B", pricePerBedroom: "100000.00" },
     ]);
   });
 
