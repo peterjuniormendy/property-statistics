@@ -19,7 +19,7 @@ export const isValidProperty = (
 export const toProperty = (raw: Property): Property => {
   return {
     ...raw,
-    price: typeof raw.price === "number" ? raw.price : undefined,
+    price: raw.price ? raw.price : undefined,
     bathrooms: typeof raw.bathrooms === "number" ? raw.bathrooms : undefined,
     area: typeof raw.area === "number" ? raw.area : undefined,
   };
