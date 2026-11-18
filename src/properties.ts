@@ -9,7 +9,7 @@ export const isValidProperty = (
     return false;
   } else if (!property.id) {
     return false;
-  } else if (typeof property.bedrooms !== "number") {
+  } else if (property.bedrooms < 0 || typeof property.bedrooms !== "number") {
     return false;
   } else {
     return true;
@@ -19,7 +19,7 @@ export const isValidProperty = (
 export const toProperty = (raw: Property): Property => {
   return {
     ...raw,
-    price: raw.price ? raw.price : undefined,
+    price: typeof raw.price === "number" ? raw.price : undefined,
     bathrooms: typeof raw.bathrooms === "number" ? raw.bathrooms : undefined,
     area: typeof raw.area === "number" ? raw.area : undefined,
   };
