@@ -2,7 +2,9 @@ import { properties } from "./data";
 import type { Criteria } from "./types/criteria";
 import type { Property, RawProperty } from "./types/property";
 
-const isValidProperty = (property: RawProperty): property is Property => {
+export const isValidProperty = (
+  property: RawProperty,
+): property is Property => {
   if (!property) {
     return false;
   } else if (!property.id || typeof property.id !== "number") {
@@ -14,7 +16,7 @@ const isValidProperty = (property: RawProperty): property is Property => {
   }
 };
 
-const toProperty = (raw: Property): Property => {
+export const toProperty = (raw: Property): Property => {
   return {
     ...raw,
     price: typeof raw.price === "number" ? raw.price : undefined,
@@ -23,11 +25,11 @@ const toProperty = (raw: Property): Property => {
   };
 };
 
-const isObject = (obj: object) => {
+export const isObject = (obj: object) => {
   return obj !== null && typeof obj === "object" && !Array.isArray(obj);
 };
 
-const isEmpty = (obj: object) => {
+export const isEmpty = (obj: object) => {
   for (const prop in obj) {
     if (Object.hasOwn(obj, prop)) {
       return false;
@@ -37,7 +39,7 @@ const isEmpty = (obj: object) => {
   return true;
 };
 
-const formatProperty = (property: Property) => {
+export const formatProperty = (property: Property) => {
   if (!isObject(property)) return "Invalid property format.";
   if (isEmpty(property)) return "Empty property";
   let id = property.id ? `#${property.id}` : "";
@@ -69,26 +71,26 @@ const formatProperty = (property: Property) => {
   return `${id} ${name} - ${propertyLocation} - ${price} - ${beds} - ${baths} - ${propertyType}`;
 };
 
-const getProperties = (properties: RawProperty[]) => {
+export const getProperties = (properties: RawProperty[]) => {
   const validProperties = properties
     .filter((property) => isValidProperty(property))
     .map((validProperty) => toProperty(validProperty));
   return validProperties;
 };
 
-const getInvalidProperties = () => {
+export const getInvalidProperties = () => {
   const invalidProperties = properties.filter(
     (property) => !isValidProperty(property),
   );
   return invalidProperties;
 };
 
-const getPropertyById = (id: number) => {
+export const getPropertyById = (id: number) => {
   const validProperties = getProperties(properties);
   return validProperties.find((property) => property.id === id);
 };
 
-const getTotalProperties = () => {
+export const getTotalProperties = () => {
   const validProperties = getProperties(properties);
   return validProperties.length;
 };
@@ -104,7 +106,7 @@ export const getPropertiesWithValidPrice = (properties: RawProperty[]) => {
   return propertiesWithValidPrice;
 };
 
-const getAveragePrice = () => {
+export const getAveragePrice = () => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice(properties);
   if (propertiesWithValidPrice.length === 0) return 0;
 
@@ -116,7 +118,7 @@ const getAveragePrice = () => {
   return totalPrice / propertiesWithValidPrice.length;
 };
 
-const getCheapestProperty = () => {
+export const getCheapestProperty = () => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice(properties);
   if (propertiesWithValidPrice.length === 0) return null;
   const cheapestProperty = propertiesWithValidPrice.reduce(
@@ -130,7 +132,7 @@ const getCheapestProperty = () => {
   return cheapestProperty;
 };
 
-const getMostExpensiveProperty = () => {
+export const getMostExpensiveProperty = () => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice(properties);
   if (propertiesWithValidPrice.length === 0) return null;
   const mostExpensiveProperty = propertiesWithValidPrice.reduce(
@@ -144,7 +146,7 @@ const getMostExpensiveProperty = () => {
   return mostExpensiveProperty;
 };
 
-const getAverageBedrooms = () => {
+export const getAverageBedrooms = () => {
   const validProperties = getProperties(properties);
   if (validProperties.length === 0) return 0;
   const totalBedrooms = validProperties.reduce(
@@ -154,7 +156,7 @@ const getAverageBedrooms = () => {
   return (totalBedrooms / validProperties.length).toFixed(1);
 };
 
-const filterByLocation = (location: string) => {
+export const filterByLocation = (location: string) => {
   const validProperties = getProperties(properties);
   const getPropertiesByLocation = validProperties.filter(
     (property) => property.location.toLowerCase() === location.toLowerCase(),
@@ -162,7 +164,7 @@ const filterByLocation = (location: string) => {
   return getPropertiesByLocation;
 };
 
-const filterByPrice = (price: number) => {
+export const filterByPrice = (price: number) => {
   const propertiesWithValidPrice = getPropertiesWithValidPrice(properties);
   const getPropertiesByPrice = propertiesWithValidPrice.filter(
     (property) => property.price !== undefined && property.price <= price,
@@ -170,7 +172,7 @@ const filterByPrice = (price: number) => {
   return getPropertiesByPrice;
 };
 
-const filterByBedrooms = (numberOfBedrooms: number) => {
+export const filterByBedrooms = (numberOfBedrooms: number) => {
   const validProperties = getProperties(properties);
   const getPropertiesByBedrooms = validProperties.filter(
     (property) => property.bedrooms >= numberOfBedrooms,
@@ -178,7 +180,7 @@ const filterByBedrooms = (numberOfBedrooms: number) => {
   return getPropertiesByBedrooms;
 };
 
-const countByPropertyType = () => {
+export const countByPropertyType = () => {
   const validProperties = getProperties(properties);
   const counts: Record<string, number> = {};
   validProperties.forEach((property) => {
@@ -189,7 +191,7 @@ const countByPropertyType = () => {
   return counts;
 };
 
-const searchProperties = (criteria: Criteria) => {
+export const searchProperties = (criteria: Criteria) => {
   if (!isObject(criteria)) return [];
   const validProperties = getProperties(properties);
   const results: Property[] = [];
@@ -220,7 +222,7 @@ const searchProperties = (criteria: Criteria) => {
   return results;
 };
 
-// const medianPropertyPrice = () => {
+// export const medianPropertyPrice = () => {
 //   const propertiesWithValidPrice = getPropertiesWithValidPrice(properties);
 //   if (propertiesWithValidPrice.length === 0) return 0;
 //   const sortedProperties = propertiesWithValidPrice.sort(
@@ -237,7 +239,7 @@ const searchProperties = (criteria: Criteria) => {
 //     return sortedProperties[middleIndex].price;
 //   }
 // };
-// const mostCommonLocation = () => {
+// export const mostCommonLocation = () => {
 //   const validProperties = getProperties(properties);
 //   const locationCount = validProperties.reduce((count, property) => {
 //     count[property.location] = (count[property.location] || 0) + 1;
@@ -262,7 +264,7 @@ const searchProperties = (criteria: Criteria) => {
 //   return totalValue / totalBedrooms;
 // };
 
-const highestPricedByLocation = () => {
+export const highestPricedByLocation = () => {
   const highestPrices: Record<string, Property> = {};
   const propertiesWithValidPrice = getPropertiesWithValidPrice(properties);
   propertiesWithValidPrice.forEach((property) => {
@@ -278,57 +280,6 @@ const highestPricedByLocation = () => {
   });
   return highestPrices;
 };
-console.log("PROPERTY STATISTICS");
-console.log("===================");
-console.log("Get total properties: ", getTotalProperties());
-console.log(
-  "Get average price: ",
-  getAveragePrice().toLocaleString("en-GB", {
-    style: "currency",
-    currency: "GBP",
-  }),
-);
-
-console.log("Get average Bedrooms: ", getAverageBedrooms());
-const cheapestProperty = getCheapestProperty();
-console.log(
-  "Get cheapest property: ",
-  cheapestProperty ? formatProperty(cheapestProperty) : "No properties found",
-);
-const mostExpensiveProperty = getMostExpensiveProperty();
-console.log(
-  "Get most expensive property: ",
-  mostExpensiveProperty
-    ? formatProperty(mostExpensiveProperty)
-    : "No properties found",
-);
-console.log("Count properties by type: ", countByPropertyType());
-const searchResults = searchProperties({ maxPrice: 300000 });
-console.log("Search properties: ", searchResults.map(formatProperty));
-
-console.log(
-  "Filter property by location",
-  filterByLocation("leeds").map(formatProperty),
-);
-console.log("Filter by max Price: ", filterByPrice(200000).map(formatProperty));
-console.log(
-  "Filter by min bedrooms: ",
-  filterByBedrooms(2).map(formatProperty),
-);
-console.log(
-  "Highest price per location: ",
-  Object.values(highestPricedByLocation()).map(
-    (property) => property.location + ": " + formatProperty(property),
-  ),
-);
-console.log(
-  "Number of invalid property records: ",
-  getInvalidProperties().length,
-  ", IDs: ",
-  getInvalidProperties().map((property) => {
-    return property.id;
-  }),
-);
 
 // week-02 friday.test exercise
 export function pricePerBedroom(
