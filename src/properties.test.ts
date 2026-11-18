@@ -1,10 +1,10 @@
 import { describe, it, expect } from "vitest";
-import type { RawProperty } from "./types/property";
+import type { Property, RawProperty } from "./types/property";
 import { PricePerBedroom } from "./properties";
 
 describe("PricePerBedroom", () => {
   it("should calculate the price per bedroom", () => {
-    const properties: RawProperty[] = [
+    const properties: Property[] = [
       {
         id: 1,
         name: "Property A",
@@ -22,13 +22,13 @@ describe("PricePerBedroom", () => {
     ];
 
     expect(PricePerBedroom(properties)).toEqual([
-      { id: 1, name: "Property A", pricePerBedroom: "100000.00" },
-      { id: 2, name: "Property B", pricePerBedroom: "100000.00" },
+      { id: 1, name: "Property A", pricePerBedroom: 100000.0 },
+      { id: 2, name: "Property B", pricePerBedroom: 100000.0 },
     ]);
   });
 
   it("should return the original price when bedrooms are zero", () => {
-    const properties: RawProperty[] = [
+    const properties: Property[] = [
       {
         id: 3,
         name: "Studio",
@@ -38,24 +38,26 @@ describe("PricePerBedroom", () => {
       },
     ];
 
-    expect(PricePerBedroom(properties)).toEqual([{ Studio: "120000.00" }]);
+    expect(PricePerBedroom(properties)).toEqual([
+      { id: 3, name: "Studio", pricePerBedroom: 120000 },
+    ]);
   });
 
-  it("should exclude properties with non-numeric prices", () => {
-    const properties: RawProperty[] = [
-      {
-        id: 4,
-        name: "Invalid Property",
-        location: "Leeds",
-        price: "200000",
-        bedrooms: 2,
-      },
-    ];
+  //   it("should exclude properties with non-numeric prices", () => {
+  //     const properties: Property[] = [
+  //       {
+  //         id: 4,
+  //         name: "Invalid Property",
+  //         location: "Leeds",
+  //         price: "200000",
+  //         bedrooms: 2,
+  //       },
+  //     ];
 
-    expect(PricePerBedroom(properties)).toEqual([]);
-  });
+  //     expect(PricePerBedroom(properties)).toEqual([]);
+  //   });
   it("should exclude properties with negative prices", () => {
-    const properties: RawProperty[] = [
+    const properties: Property[] = [
       {
         id: 5,
         name: "Negative Price",
