@@ -7,7 +7,7 @@ export const isValidProperty = (
 ): property is Property => {
   if (!property) {
     return false;
-  } else if (!property.id) {
+  } else if (!property.id || typeof property.id !== "number") {
     return false;
   } else if (property.bedrooms < 0 || typeof property.bedrooms !== "number") {
     return false;
