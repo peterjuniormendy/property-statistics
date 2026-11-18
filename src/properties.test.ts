@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
-import type { Property, RawProperty } from "./types/property";
-import { PricePerBedroom } from "./properties";
+import type { Property } from "./types/property";
+import { pricePerBedroom } from "./properties";
 
-describe("PricePerBedroom", () => {
+describe("pricePerBedroom", () => {
   it("should calculate the price per bedroom", () => {
     const properties: Property[] = [
       {
@@ -21,7 +21,7 @@ describe("PricePerBedroom", () => {
       },
     ];
 
-    expect(PricePerBedroom(properties)).toEqual([
+    expect(pricePerBedroom(properties)).toEqual([
       { id: 1, name: "Property A", pricePerBedroom: 100000.0 },
       { id: 2, name: "Property B", pricePerBedroom: 100000.0 },
     ]);
@@ -38,7 +38,7 @@ describe("PricePerBedroom", () => {
       },
     ];
 
-    expect(PricePerBedroom(properties)).toEqual([
+    expect(pricePerBedroom(properties)).toEqual([
       { id: 3, name: "Studio", pricePerBedroom: 120000 },
     ]);
   });
@@ -67,6 +67,6 @@ describe("PricePerBedroom", () => {
       },
     ];
 
-    expect(PricePerBedroom(properties)).toEqual([]);
+    expect(pricePerBedroom(properties)).toEqual([]);
   });
 });

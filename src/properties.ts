@@ -1,7 +1,6 @@
 import { properties } from "./data";
 import type { Criteria } from "./types/criteria";
 import type { Property, RawProperty } from "./types/property";
-import { describe, it, expect } from "vitest";
 
 const isValidProperty = (property: RawProperty): property is Property => {
   if (!property) {
@@ -332,7 +331,7 @@ console.log(
 );
 
 // week-02 friday.test exercise
-export function PricePerBedroom(
+export function pricePerBedroom(
   properties: Property[],
 ): { id: number; name?: string; pricePerBedroom: number }[] {
   const pricePerBedroom: {
