@@ -93,7 +93,7 @@ const getTotalProperties = () => {
   return validProperties.length;
 };
 
-const getPropertiesWithValidPrice = (properties: RawProperty[]) => {
+export const getPropertiesWithValidPrice = (properties: RawProperty[]) => {
   const validProperties = getProperties(properties);
   const propertiesWithValidPrice = validProperties.filter(
     (property) =>

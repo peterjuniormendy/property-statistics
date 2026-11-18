@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import type { Property } from "./types/property";
-import { pricePerBedroom } from "./properties";
+import type { Property, RawProperty } from "./types/property";
+import { pricePerBedroom, getPropertiesWithValidPrice } from "./properties";
 
 describe("pricePerBedroom", () => {
   it("should calculate the price per bedroom", () => {
@@ -43,19 +43,19 @@ describe("pricePerBedroom", () => {
     ]);
   });
 
-  //   it("should exclude properties with non-numeric prices", () => {
-  //     const properties: Property[] = [
-  //       {
-  //         id: 4,
-  //         name: "Invalid Property",
-  //         location: "Leeds",
-  //         price: "200000",
-  //         bedrooms: 2,
-  //       },
-  //     ];
+  it("should exclude properties with non-numeric prices", () => {
+    const properties: RawProperty[] = [
+      {
+        id: 4,
+        name: "Invalid Property",
+        location: "Leeds",
+        price: "200000",
+        bedrooms: 2,
+      },
+    ];
 
-  //     expect(PricePerBedroom(properties)).toEqual([]);
-  //   });
+    expect(getPropertiesWithValidPrice(properties)).toEqual([]);
+  });
   it("should exclude properties with negative prices", () => {
     const properties: Property[] = [
       {
