@@ -1,6 +1,53 @@
 import { describe, it, expect } from "vitest";
 import type { Property, RawProperty } from "./types/property";
-import { pricePerBedroom, getPropertiesWithValidPrice } from "./properties";
+import {
+  pricePerBedroom,
+  getPropertiesWithValidPrice,
+  isValidProperty,
+} from "./properties";
+
+describe("isValidProperty", () => {
+  it("rejects a text id", () => {
+    const property: RawProperty = {
+      id: "as20",
+      location: "Leeds",
+      bedrooms: 2,
+    };
+    expect(isValidProperty(property)).toBe(false);
+  });
+
+  it("reject an empty id", () => {
+    const property: RawProperty = {
+      id: "",
+      location: "Leeds",
+      bedrooms: 2,
+    };
+    expect(isValidProperty(property)).toBe(false);
+  });
+
+  it("reject negative numeric bedrooms", () => {
+    const property: RawProperty = {
+      id: 1,
+      location: "Leeds",
+      bedrooms: -2,
+    };
+    expect(isValidProperty(property)).toBe(false);
+  });
+
+  it("accept valid properties", () => {
+    const property: Property = {
+      id: 1,
+      name: "luxury bungalow",
+      location: "Leenwood",
+      price: 100000,
+      bedrooms: 3,
+      bathrooms: 2,
+      type: "House",
+      area: 1500,
+    };
+    expect(isValidProperty(property)).toBe(true);
+  });
+});
 
 describe("pricePerBedroom", () => {
   it("should calculate the price per bedroom", () => {
