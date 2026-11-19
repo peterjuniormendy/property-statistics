@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { Property, RawProperty } from "./types/property";
+import type { Property, RawProperty, ValidRawProperty } from "./types/property";
 import {
   pricePerBedroom,
   getPropertiesWithValidPrice,
@@ -52,23 +52,13 @@ describe("isValidProperty", () => {
 
 describe(toProperty, () => {
   it("should accept undefined price as undefined", () => {
-    const properties: Property[] = [
-      {
-        id: 1,
-        name: "Property A",
-        location: "Leeds",
-        price: undefined,
-        bedrooms: 2,
-      },
-    ];
-
-    expect(toProperty(properties[0]!)).toEqual({
-      id: 1,
-      name: "Property A",
+    const raw: ValidRawProperty = {
+      id: 2,
       location: "Leeds",
-      price: undefined,
-      bedrooms: 2,
-    });
+      bedrooms: 4,
+      price: "gfd",
+    };
+    expect(toProperty(raw).price).toBeUndefined();
   });
 
   it("should keep price of 0 as 0", () => {

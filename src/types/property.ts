@@ -19,3 +19,5 @@ export type RawProperty = {
   type?: string;
   area?: number | string | undefined;
 };
+
+export type ValidRawProperty = RawProperty & { id: number };

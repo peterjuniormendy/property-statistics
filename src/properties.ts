@@ -1,10 +1,10 @@
 import { properties } from "./data";
 import type { Criteria } from "./types/criteria";
-import type { Property, RawProperty } from "./types/property";
+import type { Property, RawProperty, ValidRawProperty } from "./types/property";
 
 export const isValidProperty = (
   property: RawProperty,
-): property is Property => {
+): property is ValidRawProperty => {
   if (!property) {
     return false;
   } else if (!property.id || typeof property.id !== "number") {
@@ -16,7 +16,7 @@ export const isValidProperty = (
   }
 };
 
-export const toProperty = (raw: Property): Property => {
+export const toProperty = (raw: ValidRawProperty): Property => {
   return {
     ...raw,
     price: typeof raw.price === "number" ? raw.price : undefined,
