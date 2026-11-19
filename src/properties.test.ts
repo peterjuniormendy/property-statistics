@@ -50,8 +50,8 @@ describe("isValidProperty", () => {
   });
 });
 
-describe(toProperty, () => {
-  it("should accept undefined price as undefined", () => {
+describe("toProperty", () => {
+  it("should change non numeric price to undefined", () => {
     const raw: ValidRawProperty = {
       id: 2,
       location: "Leeds",

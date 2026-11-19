@@ -5,6 +5,7 @@
   "main": "src/main.ts",
   "scripts": {
     "test": "vitest",
+    "test:run": "vitest run",
     "start": "tsx src/main.ts",
     "typecheck": "tsc --noEmit"
   },
