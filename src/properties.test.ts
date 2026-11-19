@@ -4,6 +4,7 @@ import {
   pricePerBedroom,
   getPropertiesWithValidPrice,
   isValidProperty,
+  toProperty,
 } from "./properties";
 
 describe("isValidProperty", () => {
@@ -46,6 +47,48 @@ describe("isValidProperty", () => {
       area: 1500,
     };
     expect(isValidProperty(property)).toBe(true);
+  });
+});
+
+describe(toProperty, () => {
+  it("should accept undefined price as undefined", () => {
+    const properties: Property[] = [
+      {
+        id: 1,
+        name: "Property A",
+        location: "Leeds",
+        price: undefined,
+        bedrooms: 2,
+      },
+    ];
+
+    expect(toProperty(properties[0]!)).toEqual({
+      id: 1,
+      name: "Property A",
+      location: "Leeds",
+      price: undefined,
+      bedrooms: 2,
+    });
+  });
+
+  it("should keep price of 0 as 0", () => {
+    const properties: Property[] = [
+      {
+        id: 1,
+        name: "Property A",
+        location: "Leeds",
+        price: 0,
+        bedrooms: 2,
+      },
+    ];
+
+    expect(toProperty(properties[0]!)).toEqual({
+      id: 1,
+      name: "Property A",
+      location: "Leeds",
+      price: 0,
+      bedrooms: 2,
+    });
   });
 });
 
