@@ -1,5 +1,4 @@
 name: CI
-run-name: Running CI test
 on: [push]
 jobs:
   build:
